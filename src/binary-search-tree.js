@@ -20,6 +20,8 @@ class BinarySearchTree {
       this.tree = new Node(data);
     }
 
+    if (this.has(data)) return; // no dublicates
+
     else {
       let node = this.tree;
       let last = node;
@@ -34,25 +36,14 @@ class BinarySearchTree {
 
       if (data < last.data) {
         last.left = new Node(data);
-      } else if (data > last.data) {
+      } else {
         last.right = new Node(data);
       }
     }
   }
 
   has(data) {
-    let node = this.tree;
-
-    while (node) {
-      if (node.data === data) return true;
-
-      if (data < node.data) {
-        node = node.left;
-      } else {
-        node = node.right;
-      }
-    }
-    return false;
+    return this.find(data) ? true : false;
   }
 
   find(data) {
@@ -111,28 +102,14 @@ class BinarySearchTree {
     }
 
     else {
-      const maxLeft = this.getMaxNode(node.left);
-      const maxData = maxLeft.data;
-      this.remove(maxLeft.data);  // recursive magic
+      const maxFromLeft = this.max(node.left);
 
-      node.data = maxData;
+      this.remove(maxFromLeft); // recursive remove more childs
+      node.data = maxFromLeft;
     }
   }
 
-  getMaxNode(node) {
-
-    let maxNode = node;
-
-    while (node) {
-      maxNode = node;
-      node = node.right;
-    }
-
-    return maxNode;
-  }
-
-  min() {
-    let node = this.tree;
+  min(node = this.tree) {
     let min = node.data;
 
     while (node) {
@@ -143,8 +120,7 @@ class BinarySearchTree {
     return min;
   }
 
-  max() {
-    let node = this.tree;
+  max(node = this.tree) {
     let max = node.data;
 
     while (node) {
@@ -166,26 +142,28 @@ const tree = new BinarySearchTree();
 tree.add(9);
 tree.add(14);
 tree.add(4);
-tree.add(3);
-tree.add(2);
-tree.add(1);
-tree.add(6);
-tree.add(128);
-tree.add(8);
-tree.add(7);
-tree.add(31);
-tree.add(54);
-tree.add(1);
+tree.add(10);
+// tree.add(2);
+// tree.add(1);
+// tree.add(6);
+// tree.add(128);
+// tree.add(8);
+// tree.add(7);
+// tree.add(31);
+// tree.add(54);
+// tree.add(1);
 
 // tree.remove(14);
 // tree.remove(8);
-tree.remove(4);
+//tree.remove(4);
 
 console.log(tree);
 console.log(tree.root().data);
-console.log(tree.has(1), 1);
-console.log(tree.has(6), 6);
-console.log(tree.has(7), 7);
+
+// console.log(tree.has(1), 1);
+// console.log(tree.has(6), 6);
+// console.log(tree.has(7), 7);
+
 
 //console.log(tree.has(14), false, 14);
 //console.log(tree.has(8), false, 8);
